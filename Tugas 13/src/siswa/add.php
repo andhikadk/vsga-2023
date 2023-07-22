@@ -4,26 +4,20 @@ include '../config.php';
 $error = "";
 $sukses = "";
 
-$id = $_GET['id'];
-$data = mysqli_query($db, "SELECT * FROM calon_siswa WHERE id = '$id'");
-$row = mysqli_fetch_array($data);
-
-// jika tombol submit diklik
 if (isset($_POST['submit'])) {
   $nama = $db->real_escape_string($_POST['nama']);
   $alamat = $db->real_escape_string($_POST['alamat']);
   $jenis_kelamin = $db->real_escape_string($_POST['jenis_kelamin']);
   $tgl_lahir = $db->real_escape_string($_POST['tgl_lahir']);
 
-  // update data ke database
-  $query = "UPDATE calon_siswa SET nama = '$nama', alamat = '$alamat', jenis_kelamin = '$jenis_kelamin', tgl_lahir = '$tgl_lahir' WHERE id = '$id'";
+  $query = "INSERT INTO calon_siswa (nama, alamat, jenis_kelamin, tgl_lahir) VALUES ('$nama', '$alamat', '$jenis_kelamin', '$tgl_lahir')";
 
   $result = mysqli_query($db, $query);
   echo $result;
   if ($result) {
-    $sukses = "Update berhasil";;
+    $sukses = "Pendaftaran berhasil";;
   } else {
-    $error = "Update gagal";
+    $error = "Pendaftaran gagal";
   }
 }; ?>
 <html>
@@ -65,31 +59,29 @@ if (isset($_POST['submit'])) {
                 </div>
               <?php
               }; ?>
-              <h5 class="card-title">Edit Data Siswa</h5>
+              <h5 class="card-title">Isikan Data Lengkap</h5>
               <div class="mb-3">
                 <label for="nama" class="form-label">Nama Lengkap</label>
-                <input type="text" class="form-control" name="nama" id="nama" value="<?php echo $row['nama']; ?>" required autofocus>
+                <input type="text" class="form-control" name="nama" id="nama" required autofocus>
               </div>
               <div class="mb-3">
                 <label for="alamat" class="form-label">Alamat</label>
-                <input type="text" class="form-control" name="alamat" id="alamat" value="<?php echo $row['alamat']; ?>" required>
+                <input type="text" class="form-control" name="alamat" id="alamat" required>
               </div>
               <div class="mb-3">
                 <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
                 <select class="form-control" name="jenis_kelamin" required>
-                  <option value="<?php echo $row['jenis_kelamin']; ?>" hidden>
-                    <?php echo $row['jenis_kelamin']; ?>
-                  </option>
+                  <option disabled selected hidden value="">-- Pilih Jenis Kelamin --</option>
                   <option value="Laki-laki">Laki-laki</option>
                   <option value="Perempuan">Perempuan</option>
                 </select>
               </div>
               <div class="mb-3">
                 <label for="tgl_lahir" class="form-label">Tanggal Lahir</label>
-                <input type="date" class="form-control" name="tgl_lahir" id="tgl_lahir" value="<?php echo $row['tgl_lahir']; ?>" required>
+                <input type="date" class="form-control" name="tgl_lahir" id="tgl_lahir" required>
               </div>
               <a href="index.php" class="btn btn-secondary mt-2">Kembali</a>
-              <button type="submit" class="btn btn-primary mt-2 float-end" name="submit">Update</button>
+              <button type="submit" class="btn btn-primary mt-2 float-end" name="submit">Daftar</button>
             </form>
           </div>
         </div>
